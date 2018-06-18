@@ -33,7 +33,7 @@ aws lambda create-function --region {REGION} --function-name Rasterzen \
     --role {ROLE} --handler main
 ```
 
-_See notes on (IAM) roles below
+_See notes on (IAM) roles below_
 
 ### Environment variables
 
