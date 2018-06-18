@@ -12,6 +12,17 @@ make bin
 
 All of this package's dependencies are bundled with the code in the `vendor` directory.
 
+## Important
+
+This works, or more specifically appears to work _for me_ so it will probably
+work for you too, right? 
+
+There are a couple important things to keep in mind:
+
+* Tiles are only cached in S3
+* There is still no cache invalidation logic (in `go-rasterzen`) so you should
+  be ready to manually purge or otherwise investigate S3 data 
+
 ## Lambda
 
 ```
@@ -39,6 +50,11 @@ ACL=public-read
 ```
 
 _Or you can leave this empty if you don't want the cached tiles to be public._
+
+### Basic settings
+
+It is unlikely that the default execution timeout settings (3 seconds) will be
+enough to fetch and process some tiles. You should adjust this as necessary.
 
 ## IAM Roles
 
