@@ -22,6 +22,8 @@ There are a couple important things to keep in mind:
 * Tiles are only cached in S3
 * There is still no cache invalidation logic (in `go-rasterzen`) so you should
   be ready to manually purge or otherwise investigate S3 data 
+* There are no hooks (in `go-rasterzen`) for enabling chatty logging which means
+  introspecting any kind of errors in the Lambda function will be... "fun"
 
 ## Lambda
 
