@@ -1,5 +1,7 @@
 # go-rasterzen-lambda
 
+Run the `go-rasterzen` code in an AWS Lambda function.
+
 ## Install
 
 You will need to have both `Go` (specifically a version of Go more recent than 1.7 so let's just assume you need [Go 1.9](https://golang.org/dl/) or higher) and the `make` programs installed on your computer. Assuming you do just type:
@@ -41,12 +43,15 @@ _Or you can leave this empty if you don't want the cached tiles to be public._
 ## IAM Roles
 
 * `AWSLambdaExecute`
-* `AWSXRayFullAccess`
+* `AWSXRayFullAccess` (I don't know why... maybe it's the tracing flag above?)
 * A role that allows your function to read/write to the S3 bucket defined in `RASTERZEN_S3_DSN`
 
 ## API Gateway
 
-_Okay, so this is still all a bit slippery for me, meaning I can barely ever keep track of all the buttons you have to press to accomplish things in AWS..._
+_Okay, so this is still all a bit slippery for me, meaning I can barely ever
+keep track of all the buttons you have to press to accomplish things in
+AWS. It's very possible, still, that I've missed something or gotten something
+else wrong. Gentle cluebats are welcome and encouraged._
 
 * Once you've created your API, you want to "Create Resource" from the `Actions` menu.
 * Configure it as a `proxy resource`
