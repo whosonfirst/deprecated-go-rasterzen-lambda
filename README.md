@@ -64,6 +64,10 @@ enough to fetch and process some tiles. You should adjust this as necessary.
 * `AWSXRayFullAccess` (I don't know why... maybe it's the tracing flag above?)
 * A role that allows your function to read/write to the S3 bucket defined in `RASTERZEN_S3_DSN`
 
+## Cloudfront
+
+Can't be done, yet. Apparently Lambda functions written in Go do not work as Cloudfront triggers yet...
+
 ## API Gateway
 
 _Okay, so this is still all a bit slippery for me, meaning I can barely ever
