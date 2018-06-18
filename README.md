@@ -110,3 +110,4 @@ In principle at this point you should get back a `200 OK` response and there sho
 * https://docs.aws.amazon.com/lambda/latest/dg/lambda-go-how-to-create-deployment-package.html
 * https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
 * https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html
+* https://apimeister.com/2017/05/09/hosting-a-cloudfront-site-with-s3-and-api-gateway.html
