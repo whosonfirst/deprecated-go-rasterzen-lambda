@@ -12,3 +12,7 @@ All of this package's dependencies are bundled with the code in the `vendor` dir
 
 ## See also
 
+* https://github.com/whosonfirst/go-rasterzen
+* https://artem.krylysov.com/blog/2018/01/18/porting-go-web-applications-to-aws-lambda/
+* https://github.com/akrylysov/algnhsa
+* https://aws.amazon.com/blogs/compute/announcing-go-support-for-aws-lambda/
