@@ -25,6 +25,9 @@ There are a couple important things to keep in mind:
 * There are no hooks (in `go-rasterzen`) for enabling chatty logging which means
   introspecting any kind of errors in the Lambda function will be... "fun"
 
+What follows is a small thumderstorm of AWS alphabet (services) soup that you'll
+need to power your way through to get this to work.
+
 ## Lambda
 
 ```
@@ -64,9 +67,15 @@ enough to fetch and process some tiles. You should adjust this as necessary.
 * `AWSXRayFullAccess` (I don't know why... maybe it's the tracing flag above?)
 * A role that allows your function to read/write to the S3 bucket defined in `RASTERZEN_S3_DSN`
 
-## Cloudfront
+## CloudFront
 
-Can't be done, yet. Apparently Lambda functions written in Go do not work as Cloudfront triggers yet...
+Can't be done without routing all the requests though API Gateway,
+yet. Apparently Lambda functions written in Go do not work as CloudFront
+triggers.
+
+If you are going to use API Gateway (more below) you should make sure to read
+the [Lambda gotchas](https://github.com/tilezen/tapalcatl-py#lambda-gotchas)
+section of the Tilezen `tapalcatl-py` package.
 
 ## API Gateway
 
@@ -99,6 +108,8 @@ In principle at this point you should get back a `200 OK` response and there sho
 
 ## See also
 
+### Package specific
+
 * https://github.com/whosonfirst/go-rasterzen
 * https://github.com/whosonfirst/go-whosonfirst-aws
 * https://artem.krylysov.com/blog/2018/01/18/porting-go-web-applications-to-aws-lambda/
@@ -110,4 +121,8 @@ In principle at this point you should get back a `200 OK` response and there sho
 * https://docs.aws.amazon.com/lambda/latest/dg/lambda-go-how-to-create-deployment-package.html
 * https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
 * https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html
+
+### General
+
 * https://apimeister.com/2017/05/09/hosting-a-cloudfront-site-with-s3-and-api-gateway.html
+* https://github.com/tilezen/tapalcatl-py#lambda-gotchas
