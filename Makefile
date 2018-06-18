@@ -34,3 +34,10 @@ fmt:
 
 bin: 	self
 	@GOPATH=$(GOPATH) go build -o bin/rasterd-lambda cmd/rasterd-lambda.go
+
+lambda: self
+	if test -f main; then rm -f main; fi
+	if test -f deployment.zip; then rm -f deployment.zip; fi
+	@GOPATH=$(GOPATH) GOOS=linux go build -o main cmd/rasterd-lambda.go
+	zip deployment.zip main
+	rm -f main

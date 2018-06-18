@@ -1,28 +1,28 @@
 package main
 
 import (
-	"flag"
 	"github.com/akrylysov/algnhsa"
 	"github.com/whosonfirst/go-rasterzen/http"
 	"github.com/whosonfirst/go-whosonfirst-cache-s3"
 	"log"
 	gohttp "net/http"
+	"os"
 )
 
 func main() {
 
-	s3_dsn := flag.String("s3-dsn", "", "A valid go-whosonfirst-aws DSN string")
-	s3_opts := flag.String("s3-opts", "", "A valid go-whosonfirst-cache-s3 options string")
+	// https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
 
-	flag.Parse()
+	s3_dsn := os.Getenv("RASTERZEN_S3_DSN")
+	cache_opts := os.Getenv("RASTERZEN_CACHE_OPTIONS")
 
-	opts, err := s3.NewS3CacheOptionsFromString(*s3_opts)
+	opts, err := s3.NewS3CacheOptionsFromString(cache_opts)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	c, err := s3.NewS3Cache(*s3_dsn, opts)
+	c, err := s3.NewS3Cache(s3_dsn, opts)
 
 	if err != nil {
 		log.Fatal(err)
