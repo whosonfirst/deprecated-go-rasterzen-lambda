@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/akrylysov/algnhsa"
+	"github.com/whosonfirst/algnhsa"
 	"github.com/whosonfirst/go-rasterzen/http"
 	"github.com/whosonfirst/go-whosonfirst-cache-s3"
 	"log"
@@ -52,8 +52,8 @@ func main() {
 	mux.Handle("/png/", png_handler)
 	mux.Handle("/svg/", svg_handler)
 
-	opts := new(algnhsa.Options)
-	opts.BinaryContentTypes = []string{ "image/png" }
+	lambda_opts := new(algnhsa.Options)
+	lambda_opts.BinaryContentTypes = []string{"image/png"}
 
-	algnhsa.ListenAndServe(mux, nil)
+	algnhsa.ListenAndServe(mux, lambda_opts)
 }

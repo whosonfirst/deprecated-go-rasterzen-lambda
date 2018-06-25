@@ -90,6 +90,23 @@ else wrong. Gentle cluebats are welcome and encouraged._
 * Set the `Resource Path` to be "{proxy+}" (... I have no idea what's going on here)
 * Enable the CORS gateway if you want...
 
+## Really important
+
+In order for requests to produce PNG output (rather than a base64 encoded string) you will need to do a few things:
+
+1. Make sure your API Gateway settings list `image/png` as a known and valid binary type:
+
+![](docs/images/20180625-agw-binary.png)
+
+2. If you've put a CloudFront distribution in front of your API Gateway then you
+will to ensure that you blanket enable all HTTP headers or whitelist the
+`Accept:` header , via the `Cache Based on Selected Request Headers` option (for
+the CloudFront behaviour that points to your gateway):
+
+![](docs/images/20180625-cf-cache.png)
+
+3. Make sure you pass an `Accept: image/png` header when you request the PNG rendering.
+
 ### Testing
 
 In the `Method` menu select 
