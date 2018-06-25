@@ -52,5 +52,8 @@ func main() {
 	mux.Handle("/png/", png_handler)
 	mux.Handle("/svg/", svg_handler)
 
+	opts := new(algnhsa.Options)
+	opts.BinaryContentTypes = []string{ "image/png" }
+
 	algnhsa.ListenAndServe(mux, nil)
 }
