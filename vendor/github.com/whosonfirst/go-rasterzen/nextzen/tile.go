@@ -3,6 +3,7 @@ package nextzen
 import (
 	"bytes"
 	"fmt"
+	"errors"
 	"github.com/paulmach/orb/clip"
 	"github.com/paulmach/orb/geojson"
 	"github.com/paulmach/orb/maptile"
@@ -10,7 +11,7 @@ import (
 	"github.com/tidwall/sjson"
 	"io"
 	"io/ioutil"
-	_ "log"
+	"log"
 	"net/http"
 )
 
@@ -26,12 +27,29 @@ func FetchTile(z int, x int, y int, api_key string) (io.ReadCloser, error) {
 
 	layer := "all"
 
+	log.Println("FETCH", layer, z, x, y)
+
 	url := fmt.Sprintf("https://tile.nextzen.org/tilezen/vector/v1/256/%s/%d/%d/%d.json?api_key=%s", layer, z, x, y, api_key)
 
 	rsp, err := http.Get(url)
 
 	if err != nil {
 		return nil, err
+	}
+
+	// for reasons I don't understand the following does not appear
+	// to trigger an error (20180628/thisisaaronland)
+	// < HTTP/2 400 
+	// < content-length: 16
+	// < server: CloudFront
+	// < date: Thu, 28 Jun 2018 20:50:44 GMT
+	// < age: 73
+	// < x-cache: Error from cloudfront
+	// < via: 1.1 02192a27c967e955f8c815efa939bfc8.cloudfront.net (CloudFront)
+	// < x-amz-cf-id: m42n6AwT9N-kBNzKnrKxe1eXfQITapw0BAfE8kG89vPNn0rQ2TQKTg==
+
+	if rsp.StatusCode != 200 {
+		return nil, errors.New(rsp.Status)
 	}
 
 	return rsp.Body, nil

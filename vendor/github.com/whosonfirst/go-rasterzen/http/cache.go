@@ -32,6 +32,8 @@ type CacheHandler struct {
 
 func (h CacheHandler) HandleRequest(rsp gohttp.ResponseWriter, req *gohttp.Request, key string) error {
 
+     log.Println(key, "HANDLE")
+
 	data, err := h.Cache.Get(key)
 
 	if err == nil || cache.IsCacheMissMulti(err) {
@@ -63,13 +65,16 @@ func (h CacheHandler) HandleRequest(rsp gohttp.ResponseWriter, req *gohttp.Reque
 		return err
 	}
 
+	/*
 	if err != nil && !cache.IsCacheMiss(err) {
 		log.Println("CACHE ERROR", key, err)
 	}
+	*/
 
 	fh, err := h.GetTileForRequest(req)
 
 	if err != nil {
+     		log.Println(key, "FAIL", err)
 		return err
 	}
 
@@ -133,11 +138,15 @@ func (h CacheHandler) GetTileForRequest(req *gohttp.Request) (io.ReadCloser, err
 	var nextzen_data io.ReadCloser   // stuff sent back from nextzen.org
 	var rasterzen_data io.ReadCloser // nextzen.org data cropped and manipulated
 
+	log.Println(path, "GET", rasterzen_key)
+
 	rasterzen_data, err = h.Cache.Get(rasterzen_key)
 
 	if err == nil {
 		return rasterzen_data, nil
 	}
+
+	log.Println(path, "GET", nextzen_key)
 
 	nextzen_data, err = h.Cache.Get(nextzen_key)
 
@@ -152,6 +161,8 @@ func (h CacheHandler) GetTileForRequest(req *gohttp.Request) (io.ReadCloser, err
 			return nil, errors.New("Missing API key")
 		}
 
+		log.Println(path, "FETCH", x, x, y)
+
 		t, err := nextzen.FetchTile(z, x, y, api_key)
 
 		if err != nil {
@@ -160,12 +171,16 @@ func (h CacheHandler) GetTileForRequest(req *gohttp.Request) (io.ReadCloser, err
 
 		defer t.Close()
 
+		log.Println(path, "SET", nextzen_key)
+
 		nextzen_data, err = h.Cache.Set(nextzen_key, t)
 
 		if err != nil {
 			return nil, err
 		}
 	}
+
+	log.Println(path, "CROP", z, x, y)
 
 	cr, err := nextzen.CropTile(z, x, y, nextzen_data)
 
@@ -174,6 +189,8 @@ func (h CacheHandler) GetTileForRequest(req *gohttp.Request) (io.ReadCloser, err
 	}
 
 	defer cr.Close()
+
+	log.Println(path, "SET", rasterzen_key)
 
 	return h.Cache.Set(rasterzen_key, cr)
 }
