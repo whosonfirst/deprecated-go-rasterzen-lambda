@@ -2,6 +2,10 @@
 
 Run the `go-rasterzen` code in an AWS Lambda function.
 
+## IMPORTANT
+
+This package has been deprecated and is no longer being maintained. All the functionality has been moved in to the [go-rasterzen](https://github.com/whosonfirst/go-rasterzen#lambda) package.
+
 ## Install
 
 You will need to have both `Go` (specifically a version of Go more recent than 1.7 so let's just assume you need [Go 1.9](https://golang.org/dl/) or higher) and the `make` programs installed on your computer. Assuming you do just type:
